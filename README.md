@@ -20,7 +20,7 @@ A busca é feita a partir da API pública de GraphQL do Ricky and Morty: [Ricky 
 - [Koin Multiplatform](https://insert-koin.io/docs/setup/v3) - Dependency Injection
 - [Jetpack Compose](https://developer.android.com/jetpack/compose?gclid=Cj0KCQiAkZKNBhDiARIsAPsk0WjARhbbzTip1mMYvPk9-HNGOEMfw5hjjdtMHCg2SX78Y_A6-d1qVIMaAhqbEALw_wcB&gclsrc=aw.ds)(Android) - UI
 - [SwiftUI](https://developer.apple.com/xcode/swiftui/) (iOS) - UI
-- [Swift Packages] - iOS Dependency Manager
+- Swift Packages - iOS Dependency Manager
 - MVI - Arquitetura / Data Flow 
 
 
@@ -178,3 +178,35 @@ class EpisodeListViewModel(private val useCase: EpisodeListUseCase) : ViewModel(
 
 
 ```
+
+Os eventos da ViewModel são ativados pela UI através da função `onTriggerEvent`
+
+```kotlin
+    fun onTriggerEvent(event: EpisodeListEvent) {
+        when (event) {
+            EpisodeListEvent.LoadEpisodes -> {
+                loadEpisodes()
+            }
+            EpisodeListEvent.NextPage -> {
+                nextPage()
+            }
+        }
+    }
+    
+```
+
+```swift
+    func onTriggerEvent(stateEvent: EpisodeListEvent){
+        switch stateEvent {
+        case is EpisodeListEvent.LoadEpisodes:
+           loadEpisodes()
+        case is EpisodeListEvent.NextPage:
+            nextPage()
+        default:
+            doNothing()
+        }
+     }
+
+```
+
+Com isso todas as outras funções dessa classe se tornam privadas, e apenas a onTriggerEvent é exposta para o UI
